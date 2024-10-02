@@ -68,6 +68,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: CoverLetter::class, mappedBy: 'app_user', orphanRemoval: true)]
     private Collection $coverLetters;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $confirmPassword = null;
+
     // ------------------------------------
     //              METHODES
     // ------------------------------------
@@ -76,6 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->jobOffers = new ArrayCollection();
         $this->linkedInMessages = new ArrayCollection();
         $this->coverLetters = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
     }
 
     #[ORM\PrePersist]
@@ -312,6 +316,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $coverLetter->setAppUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getConfirmPassword(): ?string
+    {
+        return $this->confirmPassword;
+    }
+
+    public function setConfirmPassword(?string $confirmPassword): static
+    {
+        $this->confirmPassword = $confirmPassword;
 
         return $this;
     }
