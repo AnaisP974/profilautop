@@ -6,6 +6,7 @@ use App\Repository\LinkedInMessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: LinkedInMessageRepository::class)]
 class LinkedInMessage
 {
@@ -30,6 +31,22 @@ class LinkedInMessage
     #[ORM\ManyToOne(inversedBy: 'linkedInMessages')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $app_user = null;
+
+    // ------------------------------------
+    //              METHODES
+    // ------------------------------------
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->setUpdatedAtValue();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {

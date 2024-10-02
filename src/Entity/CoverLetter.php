@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CoverLetterRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class CoverLetter
 {
     #[ORM\Id]
@@ -35,9 +36,30 @@ class CoverLetter
     #[ORM\OneToMany(targetEntity: JobOffer::class, mappedBy: 'coverLetter', orphanRemoval: true)]
     private Collection $jobOffer;
 
+    // ------------------------------------
+    //              METHODES
+    // ------------------------------------
     public function __construct()
     {
         $this->jobOffer = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->content;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->setUpdatedAtValue();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
