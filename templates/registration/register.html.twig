@@ -4,6 +4,14 @@
 
 
 {% block body %}
+    {% if app.user %}
+        <div class="mb-3">
+            Vous êtes déjà connecté
+            {{ app.user.userIdentifier }},
+            <a href="{{ path('app_logout') }}">Déconnexion</a>
+        </div>
+    {% endif %}
+
 
     {% for message in app.flashes('error') %}
         <div class="flash-error">
