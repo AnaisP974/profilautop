@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/job/offer')]
+#[Route('/job-offer')]
 final class JobOfferController extends AbstractController
 {
     #[Route(name: 'app_job_offer_index', methods: ['GET'])]
