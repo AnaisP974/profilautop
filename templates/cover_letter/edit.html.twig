@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CoverLetter{% endblock %}
+
+{% block body %}
+    <h1>Edit CoverLetter</h1>
+
+    {{ include('cover_letter/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_cover_letter_index') }}">back to list</a>
+
+    {{ include('cover_letter/_delete_form.html.twig') }}
+{% endblock %}

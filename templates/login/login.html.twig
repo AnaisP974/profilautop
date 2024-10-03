@@ -4,13 +4,15 @@
 
 
 {% block body %}
+<div class="container col-xxl-8 px-4 py-5 border border-1 rounded shadow p-3 mb-5 bg-body-tertiary">
+	<h1 class="text-center display-5 fw-bold text-body-emphasis lh-1 mb-4">Se connecter</h1>
     <form method="post">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
         {% if app.user %}
-            <div class="mb-3">
+            <div class="mb-3 col-10 col-lg-6">
                 Vous êtes déjà connecté
                 {{ app.user.userIdentifier }},
                 <a href="{{ path('app_logout') }}">Déconnexion</a>
@@ -23,28 +25,31 @@
             </div>
         {% endfor %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
-
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
-
-            <div class="checkbox mb-3">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Remember me</label>
+        <div class="row flex-column align-items-center">
+            <div class="mb-3 col-10 col-lg-6">
+                <label class="form-label" for="username">Email</label>
+                <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
             </div>
-        #}
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Se connecter
-        </button>
+            <div class="mb-3 col-10 col-lg-6">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+            </div>
+
+            <input type="hidden" name="_csrf_token"
+                value="{{ csrf_token('authenticate') }}"
+            >
+
+            <button class="btn btn-lg btn-primary m-4 w-auto"  type="submit">
+                Me connecter
+            </button>
+            
+            <a href="{{ path('app_register') }}" class="ink-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                <p class="text-center m-2">Pas encore client ?
+                    <span class="text-primary">M'inscrire</span>
+                </p>
+            </a>
+        </div>
     </form>
+</div>
 {% endblock %}

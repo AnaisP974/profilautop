@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit LinkedInMessage{% endblock %}
+
+{% block body %}
+    <h1>Edit LinkedInMessage</h1>
+
+    {{ include('linked_in_message/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_linked_in_message_index') }}">back to list</a>
+
+    {{ include('linked_in_message/_delete_form.html.twig') }}
+{% endblock %}

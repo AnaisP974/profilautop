@@ -20,39 +20,35 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 "required" => true,
-                "help" => "L'email doit être valide. Vous pouvez créer qu'un compte avec votre email.",
                 "label" => "Votre Email",
                 'empty_data' => 'my-email@gmail.com',
             ])
             ->add('password', PasswordType::class, [
                 "required" => true,
-                "help" => "",
                 "label" => "Mot de passe",
             ])
             ->add('confirmPassword', PasswordType::class, [
                 "required" => true,
-                "help" => "",
-                "label" => "Mot de passe",
+                "label" => "Confirmer le mot de passe",
             ])
             ->add('firstName', TextType::class, [
                 "required" => true,
-                "help" => "",
                 "label" => "Prénom",
                 'empty_data' => 'Nathalie',
             ])
             ->add('lastName', TextType::class, [
                 "required" => true,
-                "help" => "",
                 "label" => "Nom",
                 'empty_data' => 'DUPONT',
             ])
             ->add('image', FileType::class, [
                 "required" => false,
-                "help" => "Image de profil visible par vous uniquement. Format admit .png, .jpg, .jpeg, .gif",
                 "label" => "Image de profil",
                 "mapped" => false,
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                "label" => "M'inscrire",
+            ])
         ;
     }
 

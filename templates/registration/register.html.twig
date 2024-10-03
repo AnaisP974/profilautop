@@ -1,25 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ProfilAuTop: Inscription{% endblock %}
+{% block title %}ProfilAuTop: Inscription
+{% endblock %}
 
 
 {% block body %}
-    {% if app.user %}
-        <div class="mb-3">
-            Vous êtes déjà connecté
-            {{ app.user.userIdentifier }},
-            <a href="{{ path('app_logout') }}">Déconnexion</a>
-        </div>
-    {% endif %}
+<div class="container col-xxl-8 px-4 py-5 border border-1 rounded shadow p-3 mb-5 bg-body-tertiary">
+
+	<h1 class="text-center display-5 fw-bold text-body-emphasis lh-1 mb-4">Inscription</h1>
 
 
-    {% for message in app.flashes('error') %}
-        <div class="flash-error">
-            <p>{{ message }}</p>
-        </div>
-    {% endfor %}
+		{% if app.user %}
+			<div class="m-3 col-10 col-lg-8">
+				Vous êtes déjà connecté
+				{{ app.user.userIdentifier }},
+				<a href="{{ path('app_logout') }}">Déconnexion</a>
+			</div>
+		{% endif %}
 
 
-{{ form(registrationForm) }}
+		{% for message in app.flashes('error') %}
+			<div class="flash-error">
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+
+
+		{{ form_start(registrationForm) }}
+
+    <row class="d-flex flex-wrap justify-content-center w-100">
+            
+            <div class="col-10 col-lg-4 m-2">
+                {{ form_row(registrationForm.email, {attr: {class: 'form-label form-control'}}) }}
+            </div>
+
+            <div class="col-10 col-lg-4 m-2">
+                {{ form_row(registrationForm.image, {attr: {class: 'form-label form-control'}}) }}            
+            </div>
+
+            <div class="col-10 col-lg-4 m-2">
+                {{ form_row(registrationForm.password, {attr: {class: 'form-label form-control'}}) }}            
+            </div>
+            
+            <div class="col-10 col-lg-4 m-2">
+                {{ form_row(registrationForm.firstName, {attr: {class: 'form-label form-control'}}) }}            
+            </div>
+
+            <div class="col-10 col-lg-4 m-2">
+                {{ form_row(registrationForm.confirmPassword, {attr: {class: 'form-label form-control'}}) }}            
+            </div>
+
+            <div class="col-10 col-lg-4 m-2">
+                {{ form_row(registrationForm.lastName, {attr: {class: 'form-label form-control'}}) }}            
+            </div>
+
+
+
+            <div class="d-flex align-items-center w-100 flex-column">
+                
+{{ form_row(registrationForm.submit, {attr: {class: 'btn btn-success mt-4'}}) }}
+
+                    <br>
+<a href="{{ path('app_login') }}" class="ink-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+	<p class="text-center m-2">Déjà client ?
+		<span class="text-primary">Me connecter</span>
+	</p>
+</a>
+
+            </div>
+    </row>
+		{{ form_end(registrationForm) }}
+
+</div>
+
 
 {% endblock %}

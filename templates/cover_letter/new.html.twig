@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CoverLetter{% endblock %}
+
+{% block body %}
+    <h1>Create new CoverLetter</h1>
+
+    {{ include('cover_letter/_form.html.twig') }}
+
+    <a href="{{ path('app_cover_letter_index') }}">back to list</a>
+{% endblock %}

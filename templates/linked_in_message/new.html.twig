@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New LinkedInMessage{% endblock %}
+
+{% block body %}
+    <h1>Create new LinkedInMessage</h1>
+
+    {{ include('linked_in_message/_form.html.twig') }}
+
+    <a href="{{ path('app_linked_in_message_index') }}">back to list</a>
+{% endblock %}

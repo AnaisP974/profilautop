@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LinkedInMessage index{% endblock %}
+
+{% block body %}
+    <h1>LinkedInMessage index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Content</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for linked_in_message in linked_in_messages %}
+            <tr>
+                <td>{{ linked_in_message.id }}</td>
+                <td>{{ linked_in_message.content }}</td>
+                <td>{{ linked_in_message.createdAt ? linked_in_message.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ linked_in_message.updatedAt ? linked_in_message.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_linked_in_message_show', {'id': linked_in_message.id}) }}">show</a>
+                    <a href="{{ path('app_linked_in_message_edit', {'id': linked_in_message.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_linked_in_message_new') }}">Create new</a>
+{% endblock %}
