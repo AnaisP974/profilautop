@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use Psr\Http\Client\ClientInterface;
 use GuzzleHttp\Client;
 
 class IndeedSearchService
@@ -16,16 +15,16 @@ class IndeedSearchService
 
     public function searchJobs(string $jobTitle, string $location): array
     {
-        $url = 'https://fr.indeed.com/jobs';
+        $url = 'https://fr.indeed.com/jobs?';
         $query = [
             'q' => $jobTitle,
             'l' => $location,
-            'from'=> 'searchOnHP',
-            'Content-Type'=> 'application/x-www-form-urlencoded',
-            'Accept' => 'application/json',
-            'redirect_uri'=> 'http://www.acerecruitersllc.com/oauth/indeed?code=rXZSMNyYQHQ&state=employer1234',
-            'client_id' => '7c9156c7c6eb93c987a1203117f3b9a859795a203b25f418502b4c46a81c1b35',
-            'secret'=> 'o6WrcXZaBdisQya4KL8qLHeTH5aDTMXeO3RLCQqqvDRePlUgP1pXwGHsV8RRJswy'
+            // 'from'=> 'searchOnHP',
+            // 'Content-Type'=> 'application/x-www-form-urlencoded',
+            // 'Accept' => 'application/json',
+            // 'redirect_uri'=> 'http://www.acerecruitersllc.com/oauth/indeed?code=rXZSMNyYQHQ&state=employer1234',
+            // 'client_id' => '7c9156c7c6eb93c987a1203117f3b9a859795a203b25f418502b4c46a81c1b35',
+            // 'secret'=> 'o6WrcXZaBdisQya4KL8qLHeTH5aDTMXeO3RLCQqqvDRePlUgP1pXwGHsV8RRJswy'
         ];
 
         $response = $this->client->request('GET', $url, [

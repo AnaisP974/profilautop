@@ -20,13 +20,19 @@ class JobSearchType extends AbstractType
         $builder
             ->add('title', TextType::class, [
             'label' => 'Poste recherché',
-            'attr' => ['placeholder' => 'Entrez le poste recherché']
+            'attr' => [
+                'placeholder' => 'Entrez le poste recherché',
+                'class' => 'form-label form-control',
+            ]
         ])
             ->add('location', TextType::class, [
                 'label' => 'Ville ou Code Postal',
-                'attr' => ['placeholder' => 'Entrez la ville ou le code postal'],
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Entrez la ville ou le code postal',
+                    'class' => 'form-label form-control',
+                ],
             ])
-            ->add('submit', SubmitType::class)
         ;
     }
 

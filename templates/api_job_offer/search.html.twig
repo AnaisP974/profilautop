@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle lettre de motivation
+{% endblock %}
+
+{% block body %}
+	<main class="container d-flex justify-content-center flex-wrap">
+		<div class="d-flex justify-content-between w-100">
+			<a href="{{ path('app_api_jobOffer_search') }}">
+				<button type="button" class="btn btn-light border border-1">Retour</button>
+			</a>
+		</div>
+		<div class="col-xxl-8 px-4 py-5 border border-1 rounded shadow p-3 mb-5 bg-body-tertiary">
+			<h1 class="text-center display-5 fw-bold text-body-emphasis lh-1 mb-4">Nouvelle recherche</h1>
+
+            <hr class="my-5">
+
+            <h3>Rechercher sur Indeed</h3>
+			{{ form_start(form) }}
+
+			{{ form_row(form.title)}}
+			{{ form_row(form.location)}}
+			<button class="btn btn-dark">{{ button_label|default('Recherche') }}</button>
+			{{ form_end(form) }}
+<hr>
+{{ form_start(franceTravailForm) }}
+
+
+{{ form_row(franceTravailForm.title)}}
+
+{{ form_row(franceTravailForm.location)}}
+
+<button class="btn btn-dark">{{ button_label|default('Recherche') }}</button>
+{{ form_end(franceTravailForm) }}
+
+
+		</div>
+	</main>
+{% endblock %}
