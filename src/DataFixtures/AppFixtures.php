@@ -2,11 +2,12 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\CoverLetter;
-use App\Entity\JobOffer;
-use App\Entity\LinkedInMessage;
 use Faker\Factory;
 use App\Entity\User;
+use App\Enum\JobStatus;
+use App\Entity\JobOffer;
+use App\Entity\CoverLetter;
+use App\Entity\LinkedInMessage;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -54,7 +55,7 @@ class AppFixtures extends Fixture
                 ->setLocation($faker->city())
                 ->setContactPerson($faker->name())
                 ->setContactEmail($faker->email())
-                ->setStatus($faker->randomElement($status))
+                ->setStatus(JobStatus::A_POSTULER)
                 ->setAppUser($i % 2 === 0 ? $user1 : $user2)
             ;
             $manager->persist($jobOffer);
@@ -72,7 +73,7 @@ class AppFixtures extends Fixture
             $coverLetter = new CoverLetter();
             $coverLetter
                 ->setContent('Madame, Monsieur, <br><br>' . $faker->paragraphs(4, true) . "<br><br> Dans l'attente de votre retour, je vous prie d'agréer mes sincères salutations. <br><br>")
-                ->addJobOffer($jobOffer)
+                ->setJobOffer($jobOffer)
                 ->setAppUser($i % 2 === 0 ? $user1 : $user2)
             ;
             $manager->persist($coverLetter);

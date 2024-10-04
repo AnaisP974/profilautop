@@ -33,57 +33,57 @@ class JobOfferType extends AbstractType
                 'attr' => [
                     'class' => 'form-label form-control',
                     'placeholder' => 'Description du poste',
-                    'required' => false,
                     'row' => '12'
                 ],
+                'required' => false,
             ])
             ->add('company', TextType::class, [
                 'label' => 'Société',
                 'attr' => [
                     'class' => 'form-label form-control',
-                    'required' => false,
                     'placeholder' => 'SAFRAN'
                 ],
+                'required' => false,
             ])
             ->add('link', UrlType::class, [
                 'label' => 'Lien',
                 'attr' => [
                     'class' => 'form-label form-control',
                     'placeholder' => 'https://fr.linkedin.com/',
-                    'required' => false,
                 ],
+                'required' => false,
             ])
             ->add('location', TextType::class, [
                 'label' => 'Ville',
                 'attr' => [
                     'class' => 'form-label form-control',
                     'placeholder' => 'Paris(75)',
-                    'required' => false,
                 ],
+                'required' => false,
             ])
             ->add('salary', TextType::class, [
                 'label' => 'Salaire',
                 'attr' => [
                     'class' => 'form-label form-control',
                     'placeholder' => '35K / an',
-                    'required' => false,
                 ],
+                'required' => false,
             ])
             ->add('contactPerson', TextType::class, [
                 'label' => 'Nom du contact',
                 'attr' => [
                     'class' => 'form-label form-control',
                     'placeholder' => 'Marie Martinez',
-                    'required' => false,
                 ],
+                'required' => false,
             ])
             ->add('contactEmail', EmailType::class, [
                 'label' => 'Email du contact',
                 'attr' => [
                     'class' => 'form-label form-control',
                     'placeholder' => 'contact@gmail.com',
-                    'required' => false,
                 ],
+                'required' => false,
             ])
             ->add('coverLetter', EntityType::class, [
                 'class' => CoverLetter::class,

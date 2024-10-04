@@ -17,47 +17,17 @@
 				</button>
 			</a>
 		</div>
-
-		<table class="table table-striped table-hover">
-
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Titre</th>
-					<th>Société</th>
-					<th>Ville</th>
-					<th>Salaire</th>
-					<th>Date candidature</th>
-					<th>Status</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for job_offer in job_offers %}
-					<tr>
-						<td>{{ job_offer.id }}</td>
-						<td>{{ job_offer.title }}</td>
-						<td>{{ job_offer.company }}</td>
-						<td>{{ job_offer.location }}</td>
-						<td>{{ job_offer.salary }}</td>
-						<td>{{ job_offer.applicationDate ? job_offer.applicationDate|date('Y-m-d') : '' }}</td>
-						<td>{{ job_offer.status.value }}</td>
-						<td>
-							<a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}" class="me-3" title="lire">
-								<i class="bi bi-eye"></i>
-							</a>
-							<a href="{{ path('app_job_offer_edit', {'id': job_offer.id}) }}" title="modifier">
-								<i class="bi bi-pen"></i>
-							</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="11">Aucune offre d'emploi enregistrée.</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+		<div class="conainer">
+		<div class="row">
+			{% for job_offer in job_offers %}
+			<div class="col-lg-5 m-4">
+			{{ include('components/partials/cardsListJob.html.twig') }}
+			</div>
+			
+			{% endfor %}
+		
+		</div>
+		</div>
 	</main>
 
 

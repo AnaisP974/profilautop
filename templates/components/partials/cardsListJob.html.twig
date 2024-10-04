@@ -1,0 +1,32 @@
+<a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}" class="unstyle">
+	<div class="card text-center">
+		<div class="card-header">
+			{{ job_offer.company ? job_offer.company|upper : "N/A" }}
+		</div>
+		<div class="card-body">
+			<h5 class="card-title">{{ job_offer.title }}</h5>
+			<p class="card-text">
+				<strong>Ville :
+				</strong>
+				{{ job_offer.location ?? "N/A" }}</p>
+			<p class="card-text">
+				<strong>Salaire :
+				</strong>
+				{{ job_offer.salary ?? "N/A" }}</p>
+
+{% if job_offer.coverLetter is defined %}
+<a href="{{ path('app_cover_letter_show', {'id': job_offer.id}) }}" type="button" class="btn btn-primary">
+<i class="bi bi-envelope-paper"></i>
+</a>
+{% endif %}
+{% if job_offer.linkedInMessages is defined %}
+<a href="{{ path('app_linked_in_message_show', {'id': job_offer.id}) }}" type="button" class="btn btn-dark">
+<i class="bi bi-linkedin"></i>
+</a>
+{% endif %}
+		</div>
+		<div class="card-footer text-body-secondary">
+			{{ job_offer.status.value }}
+		</div>
+	</div>
+</a>

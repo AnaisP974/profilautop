@@ -55,12 +55,12 @@ class JobOffer
     #[ORM\OneToMany(targetEntity: LinkedInMessage::class, mappedBy: 'jobOffer', orphanRemoval: true)]
     private Collection $linkedInMessages;
 
-    #[ORM\ManyToOne(inversedBy: 'jobOffer')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?CoverLetter $coverLetter = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\OneToOne(mappedBy: 'jobOffer', cascade: ['persist', 'remove'])]
+    private ?CoverLetter $coverLetter = null;
 
     public function __construct()
     {
@@ -228,17 +228,6 @@ class JobOffer
         return $this;
     }
 
-    public function getCoverLetter(): ?CoverLetter
-    {
-        return $this->coverLetter;
-    }
-
-    public function setCoverLetter(?CoverLetter $coverLetter): static
-    {
-        $this->coverLetter = $coverLetter;
-
-        return $this;
-    }
 
     public function __toString()
     {
@@ -253,6 +242,28 @@ class JobOffer
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCoverLetter(): ?CoverLetter
+    {
+        return $this->coverLetter;
+    }
+
+    public function setCoverLetter(?CoverLetter $coverLetter): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($coverLetter === null && $this->coverLetter !== null) {
+            $this->coverLetter->setJobOffer(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($coverLetter !== null && $coverLetter->getJobOffer() !== $this) {
+            $coverLetter->setJobOffer($this);
+        }
+
+        $this->coverLetter = $coverLetter;
 
         return $this;
     }

@@ -30,18 +30,17 @@ class CoverLetter
     #[ORM\JoinColumn(nullable: false)]
     private ?User $app_user = null;
 
-    /**
-     * @var Collection<int, JobOffer>
-     */
-    #[ORM\OneToMany(targetEntity: JobOffer::class, mappedBy: 'coverLetter', orphanRemoval: true)]
-    private Collection $jobOffer;
+    #[ORM\OneToOne(inversedBy: 'coverLetter', cascade: ['persist', 'remove'])]
+    private ?JobOffer $jobOffer = null;
+
+
 
     // ------------------------------------
     //              METHODES
     // ------------------------------------
     public function __construct()
     {
-        $this->jobOffer = new ArrayCollection();
+        
     }
 
     public function __toString(): string
@@ -115,33 +114,16 @@ class CoverLetter
         return $this;
     }
 
-    /**
-     * @return Collection<int, JobOffer>
-     */
-    public function getJobOffer(): Collection
+    public function getJobOffer(): ?JobOffer
     {
         return $this->jobOffer;
     }
 
-    public function addJobOffer(JobOffer $jobOffer): static
+    public function setJobOffer(?JobOffer $jobOffer): static
     {
-        if (!$this->jobOffer->contains($jobOffer)) {
-            $this->jobOffer->add($jobOffer);
-            $jobOffer->setCoverLetter($this);
-        }
+        $this->jobOffer = $jobOffer;
 
         return $this;
     }
 
-    public function removeJobOffer(JobOffer $jobOffer): static
-    {
-        if ($this->jobOffer->removeElement($jobOffer)) {
-            // set the owning side to null (unless already changed)
-            if ($jobOffer->getCoverLetter() === $this) {
-                $jobOffer->setCoverLetter(null);
-            }
-        }
-
-        return $this;
-    }
 }
