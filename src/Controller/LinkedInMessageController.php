@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\JobOffer;
 use App\Entity\LinkedInMessage;
 use App\Form\LinkedInMessageType;
 use App\Repository\LinkedInMessageRepository;
@@ -43,9 +44,10 @@ final class LinkedInMessageController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_linked_in_message_show', methods: ['GET'])]
-    public function show(LinkedInMessage $linkedInMessage): Response
+    public function show(LinkedInMessage $linkedInMessage, JobOffer $jobOffer): Response
     {
         return $this->render('linked_in_message/show.html.twig', [
+            'jobOffer' => $jobOffer,
             'linked_in_message' => $linkedInMessage,
         ]);
     }

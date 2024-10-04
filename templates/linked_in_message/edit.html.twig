@@ -3,11 +3,19 @@
 {% block title %}Edit LinkedInMessage{% endblock %}
 
 {% block body %}
-    <h1>Edit LinkedInMessage</h1>
-
-    {{ include('linked_in_message/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_linked_in_message_index') }}">back to list</a>
-
+<main class="container d-flex justify-content-center flex-wrap">
+  <div class="d-flex w-100 justify-content-between">
+    <a href="{{ path('app_linked_in_message_index') }}"><button type="button" class="btn btn-light border border-1">Retour</button></a>
     {{ include('linked_in_message/_delete_form.html.twig') }}
+    
+  </div>
+	<div class="col-xxl-8 px-4 py-5 border border-1 rounded shadow p-3 mb-5 bg-body-tertiary">
+
+		<h1 class="text-center display-5 fw-bold text-body-emphasis lh-1 mb-4">Modifier un message LinkedIn</h1>
+
+    {{ include('linked_in_message/_form.html.twig', {'button_label': 'modifier'}) }}
+  </div>
+
+</main>
+
 {% endblock %}

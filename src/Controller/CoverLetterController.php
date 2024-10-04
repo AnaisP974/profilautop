@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\CoverLetter;
+use App\Entity\JobOffer;
 use App\Form\CoverLetterType;
 use App\Repository\CoverLetterRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,10 +44,11 @@ final class CoverLetterController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_cover_letter_show', methods: ['GET'])]
-    public function show(CoverLetter $coverLetter): Response
+    public function show(CoverLetter $coverLetter, JobOffer $jobOffer): Response
     {
         return $this->render('cover_letter/show.html.twig', [
             'cover_letter' => $coverLetter,
+            'jobOffer'=> $jobOffer,
         ]);
     }
 

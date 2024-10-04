@@ -1,58 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}JobOffer{% endblock %}
+{% block title %}Offre d'emploi
+{% endblock %}
 
 {% block body %}
-    <h1>JobOffer</h1>
+	<main class="container">
+		<div class="row justify-content-center">
+			<h1 class="text-center my-4">Offre d'emploi n°{{ jobOffer.id }}</h1>
+			<div class="col-10 col-lg-8">
+				<div class="h-100 p-5 bg-body-tertiary border rounded-3">
+					<h2>{{ jobOffer.title }}</h2>
+					<p>
+						<strong>Description de l'offre :</strong>
+					</p>
+					<p>{{ jobOffer.description ?? 'N/A' }}</p>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ job_offer.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ job_offer.title }}</td>
-            </tr>
-            <tr>
-                <th>Company</th>
-                <td>{{ job_offer.company }}</td>
-            </tr>
-            <tr>
-                <th>Link</th>
-                <td>{{ job_offer.link }}</td>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <td>{{ job_offer.location }}</td>
-            </tr>
-            <tr>
-                <th>Salary</th>
-                <td>{{ job_offer.salary }}</td>
-            </tr>
-            <tr>
-                <th>ContactPerson</th>
-                <td>{{ job_offer.contactPerson }}</td>
-            </tr>
-            <tr>
-                <th>ContactEmail</th>
-                <td>{{ job_offer.contactEmail }}</td>
-            </tr>
-            <tr>
-                <th>ApplicationDate</th>
-                <td>{{ job_offer.applicationDate ? job_offer.applicationDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ job_offer.status }}</td>
-            </tr>
-        </tbody>
-    </table>
+					<table class="table">
+						<tbody>
+							<tr>
+								<th>Société</th>
+								<td>{{ jobOffer.company ?? '' }}</td>
+							</tr>
+							<tr>
+								<th>Lien</th>
+								<td>{{ jobOffer.link ?? '' }}</td>
+							</tr>
+							<tr>
+								<th>Villen</th>
+								<td>{{ jobOffer.location ?? '' }}</td>
+							</tr>
+							<tr>
+								<th>Salaire</th>
+								<td>{{ jobOffer.salary ?? '' }}</td>
+							</tr>
+							<tr>
+								<th>Contact</th>
+								<td>{{ jobOffer.contactPerson ?? '' }}</td>
+							</tr>
+							<tr>
+								<th>Email</th>
+								<td>{{ jobOffer.contactEmail ?? '' }}</td>
+							</tr>
+							<tr>
+								<th>Date de candidature</th>
+								<td>{{ jobOffer.applicationDate ? jobOffer.applicationDate|date('Y-m-d') : '' }}</td>
+							</tr>
+							<tr>
+								<th>Status</th>
+								<td>{{ jobOffer.status.value }}</td>
+							</tr>
+						</tbody>
+					</table>
 
-    <a href="{{ path('app_job_offer_index') }}">back to list</a>
+					<div class="d-flex justify-content-around w-100 my-4">
+						<a href="{{ path('app_job_offer_index') }}">
+							<button class="btn btn-light border border-1 rounded" type="button">Retour</button>
+						</a>
+						<a href="{{ path('app_job_offer_edit', {'id': jobOffer.id}) }}">
+							<button class="btn btn-secondary rounded" type="button">Modifier</button>
+						</a>
+						{{ include('job_offer/_delete_form.html.twig') }}
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <a href="{{ path('app_job_offer_edit', {'id': job_offer.id}) }}">edit</a>
-
-    {{ include('job_offer/_delete_form.html.twig') }}
+	</main>
 {% endblock %}

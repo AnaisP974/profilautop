@@ -1,53 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello KanbanController!{% endblock %}
+{% block title %}Hello KanbanController!
+{% endblock %}
 
 {% block body %}
-<main class="container">
+	<main class="container">
 
-		<h1>Fiche de suivi de candidatures</h1>
+		<h1 class="mb-4">Fiche de suivi de candidatures</h1>
 
 
-	<table class="table table-striped table-hover">
+		<table class="table">
 
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Titre</th>
-				<th>Société</th>
-				<th>Ville</th>
-				<th>Salaire</th>
-				<th>Date candidature</th>
-				<th>Status</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for job_offer in job_offers %}
+			<thead>
 				<tr>
-					<td>{{ job_offer.id }}</td>
-					<td>{{ job_offer.title }}</td>
-					<td>{{ job_offer.company }}</td>
-					<td>{{ job_offer.location }}</td>
-					<td>{{ job_offer.salary }}</td>
-					<td>{{ job_offer.applicationDate ? job_offer.applicationDate|date('Y-m-d') : '' }}</td>
-					<td>{{ job_offer.status }}</td>
-					<td>
-						<a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}" class="me-3" title="lire">
-							<i class="bi bi-eye"></i>
-						</a>
-						<a href="{{ path('app_job_offer_edit', {'id': job_offer.id}) }}" title="modifier">
-							<i class="bi bi-pen"></i>
-						</a>
-					</td>
+					<th>A postuler</th>
+					<th>En attente</th>
+					<th>Entretien</th>
+					<th>Refusé</th>
+					<th>Accepté</th>
 				</tr>
-			{% else %}
-				<tr>
-					<td colspan="11">Aucune offre d'emploi enregistrée.</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</main>
+			</thead>
+			<tbody>
+
+				{% for job_offer in job_offers %}
+					<tr>
+						<td class="w-20">
+							{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::A_POSTULER') %}
+								{{ include('components/partials/cardsKanban.html.twig') }}
+							{% endif %}
+						</td>
+						<td class="w-20">
+							{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::EN_ATTENTE') %}
+								{{ include('components/partials/cardsKanban.html.twig') }}
+							{% endif %}
+						</td>
+						<td class="w-20">
+							{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::ENTREVUE') %}
+								{{ include('components/partials/cardsKanban.html.twig') }}
+							{% endif %}
+						</td>
+						<td class="w-20">
+							{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::REFUSE') %}
+								{{ include('components/partials/cardsKanban.html.twig') }}
+							{% endif %}
+						</td>
+						<td class="w-20">
+							{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::ACCEPTE') %}
+								{{ include('components/partials/cardsKanban.html.twig') }}
+							{% endif %}
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="11">Aucune offre d'emploi enregistrée.</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</main>
 
 {% endblock %}

@@ -2,11 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\CoverLetter;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\JobOffer;
+use App\Entity\CoverLetter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CoverLetterType extends AbstractType
@@ -14,17 +16,23 @@ class CoverLetterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
+            ->add('jobOffer', EntityType::class, [
+                'class' => JobOffer::class,
+                'label'=> 'Société',
+                'choice_label' => 'company',
+                'attr' => [
+                    'class' => 'form-label form-select',
+                ],
             ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('app_user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
+            ->add('content', TextareaType::class, [
+            'label' => 'Contenu',
+            'attr' => [
+                'class' => 'form-label form-control',
+                'placeholder' => 'Détail de mes motivations',
+                'row' => '15'
+            ],
+        ])
+            
         ;
     }
 

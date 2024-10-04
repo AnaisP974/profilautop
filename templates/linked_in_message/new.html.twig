@@ -3,9 +3,19 @@
 {% block title %}New LinkedInMessage{% endblock %}
 
 {% block body %}
-    <h1>Create new LinkedInMessage</h1>
+<main class="container d-flex justify-content-center flex-wrap">
+	<div class="d-flex justify-content-between w-100">
+		<a href="{{ path('app_linked_in_message_index') }}">
+			<button type="button" class="btn btn-light border border-1">Retour</button>
+		</a>
+	</div>
+	<div class="col-xxl-8 px-4 py-5 border border-1 rounded shadow p-3 mb-5 bg-body-tertiary">
 
-    {{ include('linked_in_message/_form.html.twig') }}
+		<h1 class="text-center display-5 fw-bold text-body-emphasis lh-1 mb-4">Nouveau message Linkedin</h1>
 
-    <a href="{{ path('app_linked_in_message_index') }}">back to list</a>
+
+		{{ include('linked_in_message/_form.html.twig') }}
+
+	</div>
+</main>
 {% endblock %}

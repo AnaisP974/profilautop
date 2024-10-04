@@ -41,7 +41,7 @@
 						<td>{{ job_offer.location }}</td>
 						<td>{{ job_offer.salary }}</td>
 						<td>{{ job_offer.applicationDate ? job_offer.applicationDate|date('Y-m-d') : '' }}</td>
-						<td>{{ job_offer.status }}</td>
+						<td>{{ job_offer.status.value }}</td>
 						<td>
 							<a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}" class="me-3" title="lire">
 								<i class="bi bi-eye"></i>

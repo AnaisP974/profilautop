@@ -1,11 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New CoverLetter{% endblock %}
+{% block title %}Nouvelle lettre de motivation
+{% endblock %}
 
 {% block body %}
-    <h1>Create new CoverLetter</h1>
-
-    {{ include('cover_letter/_form.html.twig') }}
-
-    <a href="{{ path('app_cover_letter_index') }}">back to list</a>
+	<main class="container d-flex justify-content-center flex-wrap">
+		<div class="d-flex justify-content-between w-100">
+			<a href="{{ path('app_cover_letter_index') }}">
+				<button type="button" class="btn btn-light border border-1">Retour</button>
+			</a>
+		</div>
+		<div class="col-xxl-8 px-4 py-5 border border-1 rounded shadow p-3 mb-5 bg-body-tertiary">
+			<h1 class="text-center display-5 fw-bold text-body-emphasis lh-1 mb-4">Nouvelle lettre de motivation</h1>
+			{{ include('cover_letter/_form.html.twig') }}
+		</div>
+	</main>
 {% endblock %}

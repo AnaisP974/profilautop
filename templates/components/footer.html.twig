@@ -1,22 +1,25 @@
 <div class="container">
 	<footer class="py-3 my-4">
+		{% if app.user %}
 		<ul class="nav justify-content-center border-bottom pb-3 mb-3">
 			<li class="nav-item">
-				<a href="#" class="nav-link px-2 text-body-secondary">Home</a>
+				<a href="{{ path('app_dashboard') }}" class="nav-link px-2 text-body-secondary">Dashboard</a>
 			</li>
 			<li class="nav-item">
-				<a href="#" class="nav-link px-2 text-body-secondary">Features</a>
+				<a href="{{ path('app_cover_letter_index') }}" class="nav-link px-2 text-body-secondary" title="Lettre de Motivation">LdM</a>
 			</li>
 			<li class="nav-item">
-				<a href="#" class="nav-link px-2 text-body-secondary">Pricing</a>
+				<a href="{{ path('app_job_offer_index') }}" class="nav-link px-2 text-body-secondary">Offres d'emploi</a>
 			</li>
 			<li class="nav-item">
-				<a href="#" class="nav-link px-2 text-body-secondary">FAQs</a>
+				<a href="{{ path('app_kanban') }}" class="nav-link px-2 text-body-secondary">Suivi</a>
 			</li>
 			<li class="nav-item">
-				<a href="#" class="nav-link px-2 text-body-secondary">About</a>
+				<a href="{{ path('app_linked_in_message_index') }}" class="nav-link px-2 text-body-secondary">Messages Linkedin</a>
 			</li>
 		</ul>
+		{% endif %}
+		<p class="text-center text-body-secondary mb-0 pb-0">Do with <i class="bi bi-balloon-heart"></i> by Anais PERIGNY - Formation CDA - PREPAVENIR 2024</p>
 		<p class="text-center text-body-secondary">© 2024 Company, Inc</p>
 	</footer>
 </div>

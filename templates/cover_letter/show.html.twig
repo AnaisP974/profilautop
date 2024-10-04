@@ -1,34 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CoverLetter{% endblock %}
+{% block title %}Lettre de motivation
+{% endblock %}
 
 {% block body %}
-    <h1>CoverLetter</h1>
+	<main class="container">
+		<div class="row justify-content-center">
+			<h1 class="text-center my-4">Lettre de motivation n°{{ cover_letter.id }}</h1>
+			<div class="col-10 col-lg-8">
+				<div class="h-100 p-5 bg-body-tertiary border rounded-3">
+					<h2>{{ jobOffer.title }}
+						-
+						{{ jobOffer.company|upper }}</h2>
+					<p>
+						<strong>Lettre :</strong>
+					</p>
+					<p>{{ cover_letter.content }}</p>
+					<div class="d-flex justify-content-around w-100 my-4">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ cover_letter.id }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ cover_letter.content }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ cover_letter.createdAt ? cover_letter.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ cover_letter.updatedAt ? cover_letter.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+						<p>
+							<i>
+								<strong>Dernière mise à jour :</strong><br>{{ cover_letter.updatedAt ? cover_letter.updatedAt|date('Y-m-d') : '' }}</i>
+						</p>
 
-    <a href="{{ path('app_cover_letter_index') }}">back to list</a>
+						<a href="{{ path('app_job_offer_show', {'id': jobOffer.id}) }}">
+							<button class="btn btn-light border border-1">Voir le détail l'offre</button>
+						</a>
+					</div>
 
-    <a href="{{ path('app_cover_letter_edit', {'id': cover_letter.id}) }}">edit</a>
+					<div class="d-flex justify-content-around w-100 my-4">
+						<a href="{{ path('app_cover_letter_index') }}">
+							<button class="btn btn-light border border-1 rounded" type="button">Retour</button>
+						</a>
+						<a href="{{ path('app_cover_letter_edit', {'id': cover_letter.id}) }}">
+							<button class="btn btn-secondary rounded" type="button"><i class="bi bi-pen"></i></button>
+						</a>
+						{{ include('cover_letter/_delete_form.html.twig') }}
+					</div>
+				</div>
+			</div>
+		</div>
 
-    {{ include('cover_letter/_delete_form.html.twig') }}
+	</main>
 {% endblock %}

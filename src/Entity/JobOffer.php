@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\JobOfferRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Enum\JobStatus;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\JobOfferRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: JobOfferRepository::class)]
 class JobOffer
 {
@@ -40,8 +42,8 @@ class JobOffer
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $applicationDate = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    #[ORM\Column(type: 'string', enumType: JobStatus::class)]
+    private ?JobStatus $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'jobOffers')]
     #[ORM\JoinColumn(nullable: false)]
@@ -57,9 +59,19 @@ class JobOffer
     #[ORM\JoinColumn(nullable: false)]
     private ?CoverLetter $coverLetter = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->linkedInMessages = new ArrayCollection();
+        $this->setStatus(JobStatus::A_POSTULER);
+    }
+
+    #[ORM\PrePersist]
+    public function setApplicationDateValue(): void
+    {
+        $this->applicationDate = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -163,15 +175,14 @@ class JobOffer
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): JobStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(?JobStatus $status): self
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -225,6 +236,23 @@ class JobOffer
     public function setCoverLetter(?CoverLetter $coverLetter): static
     {
         $this->coverLetter = $coverLetter;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getStatus();
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
