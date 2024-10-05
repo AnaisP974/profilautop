@@ -27,10 +27,16 @@ class KanbanController extends AbstractController
     #[Route('/kanban/edit/{id}', name: 'app_kanban_edit', methods: ['GET', 'POST'])]
     public function edit(JobOffer $jobOffer, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(JobStatusType::class);
+        $form = $this->createForm(JobStatusType::class, $jobOffer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $status = $jobOffer->getStatus()->value;
+
+            if ($status === "En attente") {
+                $jobOffer->setApplicationDate(new \DateTime());
+            } 
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_kanban', [], Response::HTTP_SEE_OTHER);

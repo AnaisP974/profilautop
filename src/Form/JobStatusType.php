@@ -19,19 +19,15 @@ class JobStatusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('status', EnumType::
-            class, [
-                'class' => JobStatus::class,
-                'choice_label' => function ($choice) {
-                    return match ($choice) {
-                        JobStatus::A_POSTULER => "À postuler",
-                        JobStatus::EN_ATTENTE => "En attente",
-                        JobStatus::ENTREVUE => "Entretien",
-                        JobStatus::REFUSE => "Refusé",
-                        JobStatus::ACCEPTE => "Accepté",
-                    };
-                },
-            ])
+            ->add('status', EnumType::class, [
+            'class' => JobStatus::class,
+            'choice_label' => function (JobStatus $status) {
+                return $status->value;
+            },
+            'attr' => [
+                'class' => 'form-label form-select',
+            ],
+        ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Soumettre',
             ]);

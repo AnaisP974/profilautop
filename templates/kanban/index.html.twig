@@ -4,59 +4,75 @@
 {% endblock %}
 
 {% block body %}
-	<main class="container">
+	<main class="d-flex no-wrap">
+		{{ include('./components/partials/sidebar.html.twig') }}
 
-		<h1 class="mb-4">Fiche de suivi de candidatures</h1>
+		<section class="container">
+
+			<h1 class="mb-4 text-center">Suivi de candidatures</h1>
+
+			<div
+				class="row">
+				{# {% for job_offer in job_offers %} #}
+				<div class="col-12 col-lg-2" id="dropzone1">
+					<h4 class="text-center">A postuler</h4>
+					{% for job_offer in job_offers %}
+						{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::A_POSTULER') %}
+							<div class="card-kanban step1" id="draggableElement_{{ job_offer.id }}" draggable="true">
+								{{ job_offer.company ?? "N/A" }}
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+
+				<div class="col-12 col-lg-2" id="dropzone2">
+					<h4 class="text-center">En attente</h4>
+					{% for job_offer in job_offers %}
+						{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::EN_ATTENTE') %}
+							<div class="card-kanban step2" id="draggableElement_{{ job_offer.id }}" draggable="true">
+								{{ job_offer.company ?? "N/A" }}
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+
+				<div class="col-12 col-lg-2" id="dropzone3">
+					<h4 class="text-center">Entrevue</h4>
+					{% for job_offer in job_offers %}
+						{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::ENTREVUE') %}
+							<div class="card-kanban step3" id="draggableElement_{{ job_offer.id }}" draggable="true">
+								{{ job_offer.company ?? "N/A" }}
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+
+				<div class="col-12 col-lg-2" id="dropzone4">
+					<h4 class="text-center">Refusé</h4>
+					{% for job_offer in job_offers %}
+						{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::REFUSE') %}
+							<div class="card-kanban step4" id="draggableElement_{{ job_offer.id }}" draggable="true">
+								{{ job_offer.company ?? "N/A" }}
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+
+				<div class="col-12 col-lg-2" id="dropzone5">
+					<h4 class="text-center">Accepté</h4>
+					{% for job_offer in job_offers %}
+						{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::ACCEPTE') %}
+							<div class="card-kanban step5" id="draggableElement_{{ job_offer.id }}" draggable="true">
+								{{ job_offer.company ?? "N/A" }}
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</section>
 
 
-		<table class="table">
-
-			<thead>
-				<tr>
-					<th>A postuler</th>
-					<th>En attente</th>
-					<th>Entretien</th>
-					<th>Refusé</th>
-					<th>Accepté</th>
-				</tr>
-			</thead>
-			<tbody>
-
-				{% for job_offer in job_offers %}
-					<tr>
-						<td class="w-20">
-							{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::A_POSTULER') %}
-								{{ include('components/partials/cardsKanban.html.twig') }}
-							{% endif %}
-						</td>
-						<td class="w-20">
-							{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::EN_ATTENTE') %}
-								{{ include('components/partials/cardsKanban.html.twig') }}
-							{% endif %}
-						</td>
-						<td class="w-20">
-							{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::ENTREVUE') %}
-								{{ include('components/partials/cardsKanban.html.twig') }}
-							{% endif %}
-						</td>
-						<td class="w-20">
-							{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::REFUSE') %}
-								{{ include('components/partials/cardsKanban.html.twig') }}
-							{% endif %}
-						</td>
-						<td class="w-20">
-							{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::ACCEPTE') %}
-								{{ include('components/partials/cardsKanban.html.twig') }}
-							{% endif %}
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="11">Aucune offre d'emploi enregistrée.</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
 	</main>
+
 
 {% endblock %}

@@ -4,19 +4,31 @@
 {% endblock %}
 
 {% block body %}
-<main class="container">
+	<main class="container d-flex justify-content-center flex-wrap">
+		<div class="d-flex w-100 ">
+			<a href="{{ path('app_kanban') }}">
+				<button type="button" class="btn btn-light border border-1">Retour</button>
+			</a>
 
-	<h1 class="mb-4">Modifier le statut</h1>
+		</div>
+		<div class="col-xxl-8 px-4 py-5 border border-1 rounded shadow p-3 mb-5 bg-body-tertiary">
 
-	<p>Vous êtes sur le point de modifier le statut de l'annonce : "{{ job_offer.title }}"</p>
-	{{ form_start(statusForm) }}
-        <div class="m-2">
-            {{ form_row(statusForm.status, {attr: {class: 'form-label select-form'}}) }}
-        </div>
+			<h1 class="text-center display-5 fw-bold text-body-emphasis lh-1 mb-4">Modifier le statut</h1>
 
-        <div class="d-flex justify-content-center w-100">
-            {{ form_row(statusForm.submit, {attr: {class: 'btn btn-success mt-4'}}) }}
-        </div>
-	{{ form_end(statusForm) }}
-</main>
+			<p>Vous êtes sur le point de modifier le statut de l'annonce : "{{ job_offer.title }}"</p>
+			{{ form_start(statusForm) }}
+			<div class="m-2">
+				{{ form_row(statusForm.status) }}
+			</div>
+
+			<div class="d-flex justify-content-center w-100">
+				{{ form_row(statusForm.submit, {attr: {class: 'btn btn-success mt-4'}}) }}
+			</div>
+			{{ form_end(statusForm) }}
+
+
+		</div>
+
+	</main>
+
 {% endblock %}

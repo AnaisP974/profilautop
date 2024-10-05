@@ -1,0 +1,40 @@
+<nav class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary shadow" style="width: 280px;">
+	<div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto">
+			<img src="{{ app.user.image ?? './Images/website/default.png' }}" alt="Image de profil" width="32" height="32" class="rounded-circle me-2">
+			<strong>{{ app.user.firstName }}
+					{{ app.user.lastName|upper }}</strong>
+	</div>
+	<hr>
+	<ul class="nav nav-pills flex-column mb-auto h-100">
+		<li class="nav-item">
+			<a href="{{ path('app_dashboard') }}" class="nav-link active" aria-current="page">
+				<i class="bi bi-speedometer2"></i> Dashboard
+			</a>
+		</li>
+		<li>
+			<a href="{{ path('app_kanban') }}" class="nav-link link-body-emphasis">
+				<i class="bi bi-calendar-week"></i> Kanban
+			</a>
+		</li>
+		<li>
+			<a href="{{ path('app_job_offer_index') }}" class="nav-link link-body-emphasis">
+				<i class="bi bi-building"></i> Candidatures
+			</a>
+		</li>
+		<li>
+			<a href="{{ path('app_job_offer_index') }}" class="nav-link link-body-emphasis">
+				<i class="bi bi-envelope-paper"></i> Lettres de motivation
+			</a>
+		</li>
+		<li>
+			<a href="{{ path('app_linked_in_message_index') }}" class="nav-link link-body-emphasis">
+				<i class="bi bi-linkedin"></i> Messages Linkedin
+			</a>
+		</li>
+		<li>
+			<a href="#" class="nav-link link-body-emphasis">
+				<i class="bi bi-person"></i> Profil
+			</a>
+		</li>
+	</ul>	
+</nav>
