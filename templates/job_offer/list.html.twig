@@ -14,14 +14,30 @@
 				</div>
 				<h1 class="text-center">Mes offres d'emplois</h1>
 			</div>
-			<div class="conainer">
-			<a href="{{ path('app_job_offer_new')}}">Nouveau</a>
+			<div class="container">
+				<div class="d-flex justify-content-between mt-4">
+					<a href="{{ path('app_job_offer_new')}}">Nouveau</a>
+					<form method="get" action="{{ path('app_job_offer_index') }}">
+						<label for="filter">Afiicher les postes :</label>
+						<select name="filter" id="filter">
+							<option value="">--Sélectionnez un filtre--</option>
+							<option value="À postuler">A postuler</option>
+							<option value="En attente">En attente</option>
+							<option value="Entretien">Entretien</option>
+							<option value="Accepté">Accepté</option>
+							<option value="Refusé">Refusé</option>
+						</select>
+						<button type="submit" class="btn btn-light border"><i class="bi bi-search"></i></button>
+					</form>
+				</div>
 				<div class="d-flex flex-wrap m-4">
 
 					{% for job_offer in job_offers %}
 						{# <div class="col-lg-3 m-1"> #}
 						{{ include('components/partials/cardsListJob.html.twig') }}
 						{# </div> #}
+					{% else %}
+						<p class="w-100 text-center text-danger"><i class="bi bi-slash-circle"></i> Aucune offre d'emploi ne correspond au filtre sélectionné.</p>
 					{% endfor %}
 
 				</div>

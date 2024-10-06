@@ -24,20 +24,32 @@ final class JobOfferController extends AbstractController
     {
         $this->indeedSearchService = $indeedSearchService;
     }
-    
+
     #[Route(name: 'app_job_offer_index', methods: ['GET'])]
-    public function index(JobOfferRepository $jobOfferRepository, Security $security): Response
+    public function index(Request $request, JobOfferRepository $jobOfferRepository, Security $security): Response
     {
         // Récupérer l'utilisateur connecté
         $user = $security->getUser();
 
-        // Récupérer les offres d'emploi créées par l'utilisateur connecté
-        $jobOffers = $jobOfferRepository->findByUser($user);
+        // Récupérer la valeur du filtre de statut dans la requête GET
+        $status = $request->query->get('filter');
 
+        // Si un statut est sélectionné et correspond à l'énumération
+        if ($status && JobStatus::tryFrom($status)) {
+            // Récupérer les offres d'emploi par utilisateur et statut
+            $jobOffers = $jobOfferRepository->findByUserAndStatus($user, $status);
+        } else {
+            // Sinon, récupérer toutes les offres d'emploi de l'utilisateur
+            $jobOffers = $jobOfferRepository->findByUser($user);
+        }
+
+        // Rendre la vue avec les offres d'emploi filtrées
         return $this->render('job_offer/list.html.twig', [
             'job_offers' => $jobOffers,
+            'selected_status' => $status,
         ]);
     }
+
 
     #[Route('/new', name: 'app_job_offer_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response

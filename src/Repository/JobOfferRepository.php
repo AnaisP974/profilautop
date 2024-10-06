@@ -28,6 +28,17 @@ class JobOfferRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findByUserAndStatus(User $user, string $status): array
+    {
+        return $this->createQueryBuilder('j')
+            ->where('j.app_user = :user')
+            ->andWhere('j.status = :status')
+            ->setParameter('user', $user)
+            ->setParameter('status', $status)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return JobOffer[] Returns an array of JobOffer objects
     //     */
