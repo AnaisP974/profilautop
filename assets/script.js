@@ -1,29 +1,68 @@
-// Gérer l'événement de début de glissement
-document.querySelectorAll('[draggable="true"]').forEach(draggableElement => {
-    draggableElement.addEventListener('dragstart', function(event) {
-        event.dataTransfer.setData('text', event.target.id);  // Enregistrer l'ID de l'élément
+document.addEventListener('DOMContentLoaded', function () {
+    const csrfToken = document.getElementById('csrf-token-container').getAttribute('data-csrf-token');
+
+    const dropzones = [
+        { id: 'dropzone1', status: 'À postuler' },
+        { id: 'dropzone2', status: 'En attente' },
+        { id: 'dropzone3', status: 'Entretien' },
+        { id: 'dropzone4', status: 'Refusé' },
+        { id: 'dropzone5', status: 'Accepté' }
+    ];
+
+    function handleDragStart(event) {
+        event.dataTransfer.setData('text/plain', event.target.id);
+    }
+
+    function handleDragOver(event) {
+        event.preventDefault();
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        const data = event.dataTransfer.getData('text');
+        const draggedElement = document.getElementById(data);
+        const dropzone = event.currentTarget;
+        
+        dropzone.appendChild(draggedElement);
+
+        const jobOfferId = data.split('_')[1];
+        const newStatus = dropzones.find(zone => zone.id === dropzone.id).status;
+
+        updateJobStatus(jobOfferId, newStatus);
+    }
+
+    function updateJobStatus(jobOfferId, newStatus) {
+        console.log('Envoi du statut:', newStatus);
+        fetch('/update-job-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({
+                jobOfferId: jobOfferId,
+                newStatus: newStatus
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Statut mis à jour avec succès', { jobOfferId, newStatus });
+                window.location.reload(); // Rafraichir la page
+            } else {
+                console.error('Erreur lors de la mise à jour du statut:', data.message);
+            }
+        })
+        .catch(error => console.error('Erreur lors de la requête:', error));
+    }
+
+    document.querySelectorAll('[draggable="true"]').forEach(element => {
+        element.addEventListener('dragstart', handleDragStart);
     });
-});
 
-// Liste des dropzones
-let dropzones = ['dropzone1', 'dropzone2', 'dropzone3', 'dropzone4', 'dropzone5'];
-
-// Fonction pour gérer le dragover
-function handleDragOver(event) {
-    event.preventDefault();  // Empêche le comportement par défaut pour autoriser le drop
-}
-
-// Fonction pour gérer le dépôt
-function handleDrop(event) {
-    event.preventDefault();
-    let data = event.dataTransfer.getData('text');  // Récupérer l'ID de l'élément déplacé
-    let element = document.getElementById(data);
-    event.target.appendChild(element);  // Ajouter l'élément dans la zone de dépôt
-}
-
-// Attacher les événements aux dropzones
-dropzones.forEach(function(zoneId) {
-    let dropzone = document.getElementById(zoneId);
-    dropzone.addEventListener('dragover', handleDragOver);
-    dropzone.addEventListener('drop', handleDrop);
+    dropzones.forEach(zone => {
+        const dropzone = document.getElementById(zone.id);
+        dropzone.addEventListener('dragover', handleDragOver);
+        dropzone.addEventListener('drop', handleDrop);
+    });
 });

@@ -1,8 +1,7 @@
 <nav class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary shadow" style="width: 280px;">
 	<div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto">
 			<img src="{{ app.user.image ?? './Images/website/default.png' }}" alt="Image de profil" width="32" height="32" class="rounded-circle me-2">
-			<strong>{{ app.user.firstName }}
-					{{ app.user.lastName|upper }}</strong>
+			<strong>{% if app.user.firstName is defined %}{{ app.user.firstName }}{% else %} user {% endif %}{% if app.user.lastName is defined %} {{ app.user.lastName|upper }} {% else %}*** {% endif %}</strong>
 	</div>
 	<hr>
 	<ul class="nav nav-pills flex-column mb-auto h-100">

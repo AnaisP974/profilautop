@@ -9,12 +9,13 @@
 
 		<section class="container">
 
-			<h1 class="mb-4 text-center">Suivi de candidatures</h1>
+			<h1 class="my-4 text-center">Suivi de candidatures</h1>
+			
+			<div id="csrf-token-container" data-csrf-token="{{ csrf_token('update_job_status') }}"></div>
 
-			<div
-				class="row">
+			<div class="my-5 row justify-content-center">
 				{# {% for job_offer in job_offers %} #}
-				<div class="col-12 col-lg-2" id="dropzone1">
+				<div class="col-12 col-lg-2 border-end border-start" id="dropzone1">
 					<h4 class="text-center">A postuler</h4>
 					{% for job_offer in job_offers %}
 						{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::A_POSTULER') %}
@@ -25,7 +26,7 @@
 					{% endfor %}
 				</div>
 
-				<div class="col-12 col-lg-2" id="dropzone2">
+				<div class="col-12 col-lg-2 border-end border-start" id="dropzone2">
 					<h4 class="text-center">En attente</h4>
 					{% for job_offer in job_offers %}
 						{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::EN_ATTENTE') %}
@@ -36,7 +37,7 @@
 					{% endfor %}
 				</div>
 
-				<div class="col-12 col-lg-2" id="dropzone3">
+				<div class="col-12 col-lg-2 border-end border-start" id="dropzone3">
 					<h4 class="text-center">Entrevue</h4>
 					{% for job_offer in job_offers %}
 						{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::ENTREVUE') %}
@@ -47,7 +48,7 @@
 					{% endfor %}
 				</div>
 
-				<div class="col-12 col-lg-2" id="dropzone4">
+				<div class="col-12 col-lg-2 border-end border-start" id="dropzone4">
 					<h4 class="text-center">Refusé</h4>
 					{% for job_offer in job_offers %}
 						{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::REFUSE') %}
@@ -58,7 +59,7 @@
 					{% endfor %}
 				</div>
 
-				<div class="col-12 col-lg-2" id="dropzone5">
+				<div class="col-12 col-lg-2 border-end border-start" id="dropzone5">
 					<h4 class="text-center">Accepté</h4>
 					{% for job_offer in job_offers %}
 						{% if job_offer.status is defined and job_offer.status == constant('App\\Enum\\JobStatus::ACCEPTE') %}

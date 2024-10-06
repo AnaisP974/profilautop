@@ -4,48 +4,82 @@ namespace App\Controller;
 
 use App\Enum\JobStatus;
 use App\Entity\JobOffer;
-use App\Form\JobStatusType;
+use Psr\Log\LoggerInterface;
 use App\Repository\JobOfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class KanbanController extends AbstractController
 {
-    #[Route('/kanban', name: 'app_kanban', methods:['GET'])]
-    public function index(JobOfferRepository $jobOfferRepository, Request $request, EntityManagerInterface $entityManager): Response
+    private $csrfTokenManager;
+
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
     {
+        $this->csrfTokenManager = $csrfTokenManager;
+    }
+
+    #[Route('/kanban', name: 'app_kanban', methods: ['GET'])]
+    public function index(JobOfferRepository $jobOfferRepository, LoggerInterface $logger): Response
+    {
+        $jobOffers = $jobOfferRepository->findAll();
+        $logger->info('Récupération des offres d\'emploi', ['count' => count($jobOffers)]);
+
+        foreach ($jobOffers as $offer) {
+            $logger->info('Détails de l\'offre', [
+                'id' => $offer->getId(),
+                'status' => $offer->getStatus()->value
+            ]);
+        }
 
         return $this->render('kanban/index.html.twig', [
-            'job_offers' => $jobOfferRepository->findAll(),
-            'job_offer_status' => JobStatus::class
+            'job_offers' => $jobOffers,
+            'job_offer_status' => JobStatus::cases(),
         ]);
     }
 
-    #[Route('/kanban/edit/{id}', name: 'app_kanban_edit', methods: ['GET', 'POST'])]
-    public function edit(JobOffer $jobOffer, Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/update-job-status', name: 'update_job_status', methods: ['POST'])]
+    public function updateJobStatus(Request $request, EntityManagerInterface $entityManager, LoggerInterface $logger): JsonResponse
     {
-        $form = $this->createForm(JobStatusType::class, $jobOffer);
-        $form->handleRequest($request);
+        $data = json_decode($request->getContent(), true);
+        $jobOfferId = $data['jobOfferId'] ?? null;
+        $newStatus = $data['newStatus'] ?? null;
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $status = $jobOffer->getStatus()->value;
+        $logger->info('Tentative de mise à jour', ['jobOfferId' => $jobOfferId, 'newStatus' => $newStatus]);
 
-            if ($status === "En attente") {
-                $jobOffer->setApplicationDate(new \DateTime());
-            } 
-
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_kanban', [], Response::HTTP_SEE_OTHER);
+        if (!$jobOfferId || !$newStatus) {
+            return $this->json(['success' => false, 'message' => 'Données manquantes'], 400);
         }
 
-        return $this->render('kanban/edit.html.twig', [
-            'job_offer' => $jobOffer,
-            'job_offer_status' => JobStatus::class,
-            'statusForm' => $form
-        ]);
+        $jobOffer = $entityManager->getRepository(JobOffer::class)->find($jobOfferId);
+
+        if (!$jobOffer) {
+            return $this->json(['success' => false, 'message' => 'Offre d\'emploi non trouvée'], 404);
+        }
+
+        try {
+            $status = JobStatus::from($newStatus);
+            $jobOffer->setStatus($status);
+            $entityManager->flush();
+            $logger->info('Mise à jour réussie', ['jobOfferId' => $jobOfferId, 'newStatus' => $newStatus]);
+            return $this->json(['success' => true, 'message' => 'Statut mis à jour avec succès']);
+        } catch (\ValueError $e) {
+            $logger->error('Erreur lors de la mise à jour', [
+                'jobOfferId' => $jobOfferId,
+                'newStatus' => $newStatus,
+                'error' => $e->getMessage(),
+                'validStatuses' => array_column(JobStatus::cases(), 'value')
+            ]);
+            return $this->json([
+                'success' => false,
+                'message' => 'Statut invalide',
+                'validStatuses' => array_column(JobStatus::cases(), 'value')
+            ], 400);
+        }
     }
 }

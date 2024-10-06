@@ -4,8 +4,10 @@
 {% endblock %}
 
 {% block body %}
-	<main class="container">
+<main class="d-flex no-wrap">
+{{ include('./components/partials/sidebar.html.twig') }}
 
+<div class="container">
 		<div class="d-flex justify-content-between my-4">
 			<h1>Mes offres d'emplois</h1>
 
@@ -39,6 +41,7 @@
 
 			</div>
 		</div>
+</div>
 	</main>
 
 

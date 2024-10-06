@@ -1,12 +1,22 @@
 body {
 
 }
+/* Texte mis en valeur */
+.deco{
+    font-size: 1.2em;
+    font-weight: 600;
+    color: blueviolet;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* KANBAN */
 .card-kanban{
     border: 1px solid hwb(0 83% 17% / 0.575);
     border-radius: 5px;
     padding: 10px;
     font-size: 0.8em;
     margin: 10px auto;
+    color: rgb(0, 0, 0);
     cursor: grab;
 }
 .step1{
@@ -22,13 +32,16 @@ background: linear-gradient(114deg, rgba(138,207,199,1) 0%, rgba(45,253,174,0.59
 background: linear-gradient(114deg, rgba(195,169,34,1) 0%, rgba(234,253,45,0.5971638655462185) 100%);
 }
 .step4{
-    background: rgb(195,34,34);
-background: linear-gradient(114deg, rgba(195,34,34,1) 0%, rgba(253,111,45,0.5971638655462185) 100%);
+    background: rgb(196, 55, 55);
+background: linear-gradient(114deg, rgb(204, 61, 61) 0%, rgba(253,111,45,0.5971638655462185) 100%);
+
 }
 .step5{
     background: rgb(34,195,96);
 background: linear-gradient(114deg, rgba(34,195,96,1) 0%, rgba(213,253,45,1) 100%);
 }
+
+
 .unstyle{
     text-decoration: none;
     color: black;
@@ -46,7 +59,3 @@ background: linear-gradient(114deg, rgba(34,195,96,1) 0%, rgba(213,253,45,1) 100
 .w-20{
     width: 20%;
 }
-/* .dropzone {
-    width: 20%;
-    height: 100%;
-} */
