@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\User;
 use App\Enum\JobStatus;
 use App\Entity\JobOffer;
 use App\Entity\CoverLetter;
@@ -33,7 +32,7 @@ class JobOfferType extends AbstractType
                 'attr' => [
                     'class' => 'form-label form-control',
                     'placeholder' => 'Description du poste',
-                    'row' => '12'
+                    'rows' => '12'
                 ],
                 'required' => false,
             ])

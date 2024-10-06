@@ -9,6 +9,7 @@ use App\Form\JobSearchType;
 use App\Service\IndeedSearchService;
 use App\Repository\JobOfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -25,47 +26,38 @@ final class JobOfferController extends AbstractController
     }
     
     #[Route(name: 'app_job_offer_index', methods: ['GET'])]
-    public function index(JobOfferRepository $jobOfferRepository): Response
+    public function index(JobOfferRepository $jobOfferRepository, Security $security): Response
     {
+        // Récupérer l'utilisateur connecté
+        $user = $security->getUser();
+
+        // Récupérer les offres d'emploi créées par l'utilisateur connecté
+        $jobOffers = $jobOfferRepository->findByUser($user);
+
         return $this->render('job_offer/list.html.twig', [
-            'job_offers' => $jobOfferRepository->findAll(),
+            'job_offers' => $jobOffers,
         ]);
     }
 
     #[Route('/new', name: 'app_job_offer_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
+        $user = $security->getUser();
         $jobOffer = new JobOffer();
         $form = $this->createForm(JobOfferType::class, $jobOffer);
         $form->handleRequest($request);
 
-        $jobSearch = $this->createForm(JobSearchType::class);
-        $jobSearch->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $jobOffer->setAppUser($user);
             $entityManager->persist($jobOffer);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_job_offer_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        if ($jobSearch->isSubmitted() && $jobSearch->isValid()) {
-            $data = $jobSearch->getData();
-            $jobTitle = $data->getTitle();
-            $location = $data->getLocation();
-
-            // Recherche sur Indeed
-            $results = $this->indeedSearchService->searchJobs($jobTitle, $location);
-
-            return $this->json($results); // Retourne les résultats au format JSON
-
-        }
-
-
         return $this->render('job_offer/new.html.twig', [
             'jobOffer' => $jobOffer,
             'form' => $form,
-            'jobSearchForm' => $jobSearch,
         ]);
     }
 
@@ -78,8 +70,9 @@ final class JobOfferController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_job_offer_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, JobOffer $jobOffer, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, JobOffer $jobOffer, EntityManagerInterface $entityManager, Security $security): Response
     {
+        $user = $security->getUser();
         // Création du formulaire pour éditer l'offre d'emploi
         $form = $this->createForm(JobOfferType::class, $jobOffer);
         $form->handleRequest($request);
@@ -88,10 +81,10 @@ final class JobOfferController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Les données du formulaire sont déjà mappées dans l'entité JobOffer
             // Donc pas besoin de récupérer explicitement `getData()`
-
+            $jobOffer->setAppUser($user);
             // `getStatus()` retourne une instance de JobStatus Enum
             $status = $jobOffer->getStatus()->value;
-
+            
             // Vérification simple en utilisant les cas de l'enum, sans conversion manuelle
             if ($status === "En attente") {
                 $jobOffer->setApplicationDate(new \DateTime());

@@ -1,24 +1,24 @@
 {{ form_start(form) }}
-<div class="row">
-	<div class="col-6 col-lg-4">{{ form_row(form.title)}}</div>
-	<div class="col-6 col-lg-4">{{ form_row(form.company)}}</div>
-	<div class="col-6 col-lg-4">{{ form_row(form.link)}}</div>
-	<div class="col-12">{{ form_row(form.description)}}</div>
+<div class="row justify-content-center">
+	<div class="col-11 col-lg-5 m-1">{{ form_row(form.title)}}</div>
+	<div class="col-11 col-lg-5 m-1">{{ form_row(form.company)}}</div>
 
-	<div class="col-6 col-lg-4">{{ form_row(form.contactEmail)}}</div>
+	<div class="col-11 col-lg-5 m-1">{{ form_row(form.contactEmail)}}</div>
 
-	<div class="col-6 col-lg-4">{{ form_row(form.salary)}}</div>
+	<div class="col-11 col-lg-5 m-1">{{ form_row(form.salary)}}</div>
 
-	<div class="col-6 col-lg-4">{{ form_row(form.location)}}</div>
+	<div class="col-11 col-lg-5 m-1">{{ form_row(form.location)}}</div>
 
-	<div class="col-6 col-lg-4">{{ form_row(form.contactPerson)}}</div>
+	<div class="col-11 col-lg-5 m-1">{{ form_row(form.contactPerson)}}</div>
 
 
-	<div class="col-6 col-lg-4">{{ form_row(form.coverLetter)}}</div>
+	<div class="col-11 col-lg-5 m-1">{{ form_row(form.coverLetter)}}</div>
 
-	<div class="col-6 col-lg-4">{{ form_row(form.status)}}</div>
+	<div class="col-11 col-lg-5 m-1">{{ form_row(form.status)}}</div>
+	<div class="col-11">{{ form_row(form.description)}}</div>
+	<div class="col-11">{{ form_row(form.link)}}</div>
 
-	<div class="col-12">
+	<div class="col-11 d-flex justify-content-center">
 		<button class="btn btn-primary m-4">{{ button_label|default('Enregistrer') }}</button>
 	</div>
 </div>

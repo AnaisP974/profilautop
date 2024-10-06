@@ -7,6 +7,7 @@ use App\Entity\JobOffer;
 use Psr\Log\LoggerInterface;
 use App\Repository\JobOfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -25,9 +26,11 @@ class KanbanController extends AbstractController
     }
 
     #[Route('/kanban', name: 'app_kanban', methods: ['GET'])]
-    public function index(JobOfferRepository $jobOfferRepository, LoggerInterface $logger): Response
+    public function index(JobOfferRepository $jobOfferRepository, LoggerInterface $logger, Security $security): Response
     {
-        $jobOffers = $jobOfferRepository->findAll();
+        $user = $security->getUser();
+        $jobOffers = $jobOfferRepository->findByUser($user);
+        
         $logger->info('Récupération des offres d\'emploi', ['count' => count($jobOffers)]);
 
         foreach ($jobOffers as $offer) {

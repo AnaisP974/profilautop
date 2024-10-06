@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\JobOffer;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<JobOffer>
@@ -16,6 +17,17 @@ class JobOfferRepository extends ServiceEntityRepository
         parent::__construct($registry, JobOffer::class);
     }
 
+    /**
+     * Récupère les offres d'emploi créées par un utilisateur donné.
+     */
+    public function findByUser(User $user)
+    {
+        return $this->createQueryBuilder('j')
+            ->andWhere('j.app_user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return JobOffer[] Returns an array of JobOffer objects
     //     */

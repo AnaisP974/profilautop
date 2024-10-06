@@ -4,18 +4,29 @@
 {% endblock %}
 
 {% block body %}
-<main class="d-flex no-wrap">
-{{ include('./components/partials/sidebar.html.twig') }}
+	<main class="d-flex no-wrap">
+		{{ include('./components/partials/sidebar.html.twig') }}
 
-<div class="container">
-<h1 class="text-center">Bienvenue!</h1>
-<p class="text-center deco">
-{% if app.user.firstName is defined %}{{ app.user.firstName }}{% else %} user {% endif %}{% if app.user.lastName is defined %} {{ app.user.lastName|upper }} {% else %}*** {% endif %}
-</p>
-</div>
+		<div class="container">
+            <div class="banner">
+				<div class="img">
+					<img src="./Images/website/baner.jpg" alt="baniére image">
+				</div>
+				<h1 class="text-center">Bienvenue! <br> <span class="text-center deco">{% if app.user.firstName is defined %}
+					{{ app.user.firstName }}
+				{% else %}
+					user
+				{% endif %}
+				{% if app.user.lastName is defined %}
+					{{ app.user.lastName|upper }}
+					{% else %}***
+				{% endif %}</span></h1>
+			</div>
+			
+		</div>
 
 
-</main>
+	</main>
 
 
 {% endblock %}

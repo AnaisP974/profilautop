@@ -1,22 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modification Offre{% endblock %}
+{% block title %}Modification Offre
+{% endblock %}
 
 {% block body %}
-<main class="container d-flex justify-content-center flex-wrap">
-		<div class="d-flex justify-content-between w-100">
-			<a href="{{ path('app_job_offer_index') }}">
-				<button type="button" class="btn btn-light border border-1">Retour</button>
-			</a>
-			{{ include('job_offer/_delete_form.html.twig') }}
+	<main class="d-flex no-wrap">
+		{{ include('./components/partials/sidebar.html.twig') }}
+
+		<div class="container">
+			<h1 class="text-center mt-4 deco">Modifier l'offre d'emploi</h1>
+			<h2 class="link-menu text-center mb-4">
+				<a href="{{ path('app_dashboard') }}" class="unstyle">Dashboard</a>
+				>
+				<a href="{{ path('app_job_offer_index') }}" class="unstyle">Candidatures</a>
+				>
+				<a href="{{ path('app_job_offer_show', {'id': jobOffer.id}) }}" class="unstyle">Détail</a>
+				>
+				<span>Modifier</span>
+			</h2>
+			<div
+				class="d-flex justify-content-center flex-wrap">
+				{# <div class="d-flex justify-content-between w-100">
+									<a href="{{ path('app_job_offer_index') }}">
+										<button type="button" class="btn btn-light border border-1">Retour</button>
+									</a>
+									{{ include('job_offer/_delete_form.html.twig') }}
+								</div> #}
+				<div class="col-xxl-8 px-4 py-5 border border-1 rounded shadow p-3 mb-5 bg-body-tertiary">
+
+					{{ include('job_offer/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+					<div class="text-center">
+						{{ include('job_offer/_delete_form.html.twig') }}
+					</div>
+				</div>
+			</div>
 		</div>
-	<div class="col-xxl-8 px-4 py-5 border border-1 rounded shadow p-3 mb-5 bg-body-tertiary">
-
-		<h1 class="text-center display-5 fw-bold text-body-emphasis lh-1 mb-4">Modifier une offre d'emploi</h1>
-
-
-		{{ include('job_offer/_form.html.twig', {'button_label': 'Modifier'}) }}
-
-	</div>
-</main>
+	</main>
 {% endblock %}

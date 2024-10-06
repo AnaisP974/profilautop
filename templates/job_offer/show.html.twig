@@ -4,66 +4,75 @@
 {% endblock %}
 
 {% block body %}
-	<main class="container">
-		<div class="row justify-content-center">
-			<h1 class="text-center my-4">Offre d'emploi n°{{ jobOffer.id }}</h1>
-			<div class="col-10 col-lg-8">
-				<div class="h-100 p-5 bg-body-tertiary border rounded-3">
-					<h2>{{ jobOffer.title }}</h2>
-					<p>
-						<strong>Description de l'offre :</strong>
-					</p>
-					<p>{{ jobOffer.description ?? 'N/A' }}</p>
+	<main class="d-flex no-wrap">
+		{{ include('./components/partials/sidebar.html.twig') }}
 
-					<table class="table">
-						<tbody>
-							<tr>
-								<th>Société</th>
-								<td>{{ jobOffer.company ?? '' }}</td>
-							</tr>
-							<tr>
-								<th>Lien</th>
-								<td>{{ jobOffer.link ?? '' }}</td>
-							</tr>
-							<tr>
-								<th>Villen</th>
-								<td>{{ jobOffer.location ?? '' }}</td>
-							</tr>
-							<tr>
-								<th>Salaire</th>
-								<td>{{ jobOffer.salary ?? '' }}</td>
-							</tr>
-							<tr>
-								<th>Contact</th>
-								<td>{{ jobOffer.contactPerson ?? '' }}</td>
-							</tr>
-							<tr>
-								<th>Email</th>
-								<td>{{ jobOffer.contactEmail ?? '' }}</td>
-							</tr>
-							<tr>
-								<th>Date de candidature</th>
-								<td>{{ jobOffer.applicationDate ? jobOffer.applicationDate|date('Y-m-d') : '' }}</td>
-							</tr>
-							<tr>
-								<th>Status</th>
-								<td>{{ jobOffer.status.value }}</td>
-							</tr>
-						</tbody>
-					</table>
+		<div class="container">
+			<h1 class="text-center mt-4 deco">Offre d'emploi n°{{ jobOffer.id }}</h1>
+			<h2 class="link-menu text-center mb-4">
+			<a href="{{ path('app_dashboard') }}" class="unstyle">Dashboard</a> > <a href="{{ path('app_job_offer_index') }}" class="unstyle">Candidatures</a> > <span>Détail</span>
+			</h2>
+			<div class=" p-2 bg-body-tertiary border rounded-3 w-80">
+				<div class="row justify-content-center">
 
-					<div class="d-flex justify-content-around w-100 my-4">
-						<a href="{{ path('app_job_offer_index') }}">
-							<button class="btn btn-light border border-1 rounded" type="button">Retour</button>
-						</a>
-						<a href="{{ path('app_job_offer_edit', {'id': jobOffer.id}) }}">
-							<button class="btn btn-secondary rounded" type="button">Modifier</button>
-						</a>
-						{{ include('job_offer/_delete_form.html.twig') }}
+					<div class="col-11 col-lg-5">
+						<table class="table">
+							<tbody>
+								<tr>
+									<th>Société</th>
+									<td>{{ jobOffer.company ?? '' }}</td>
+								</tr>
+								<tr>
+									<th>Lien</th>
+									<td>
+										{% if jobOffer.link is defined %}
+											<a href="{{ jobOffer.link }}">voir l'annonce</a>
+										{% endif %}
+									</td>
+								</tr>
+								<tr>
+									<th>Ville</th>
+									<td>{{ jobOffer.location ?? '' }}</td>
+								</tr>
+								<tr>
+									<th>Salaire</th>
+									<td>{{ jobOffer.salary ?? '' }}</td>
+								</tr>
+								<tr>
+									<th>Contact</th>
+									<td>{{ jobOffer.contactPerson ?? '' }}</td>
+								</tr>
+								<tr>
+									<th>Email</th>
+									<td>{{ jobOffer.contactEmail ?? '' }}</td>
+								</tr>
+								<tr>
+									<th>Date de candidature</th>
+									<td>{{ jobOffer.applicationDate ? jobOffer.applicationDate|date('Y-m-d') : '' }}</td>
+								</tr>
+								<tr>
+									<th>Status</th>
+									<td>{{ jobOffer.status.value }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-11 col-lg-7">
+						<div class="d-flex justify-content-between">
+							<h2>{{ jobOffer.title }}</h2>
+							<a href="{{ path('app_job_offer_edit', {'id': jobOffer.id}) }}" title="Modifier">
+								<i class="bi bi-pencil text-primary"></i>
+							</a>
+						</div>
+
+						<p>
+							<strong>Description de l'offre :</strong>
+						</p>
+						<p>{{ jobOffer.description ?? 'N/A' }}</p>
+
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</main>
 {% endblock %}
