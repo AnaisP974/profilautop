@@ -6,20 +6,21 @@
 	<hr>
 	<ul class="nav nav-pills flex-column mb-auto h-100">
 		<li class="nav-item">
-			<a href="{{ path('app_dashboard') }}" class="nav-link active" aria-current="page">
+			<a href="{{ path('app_dashboard') }}" class="nav-link link-body-emphasis {{ app.request.attributes.get('_route') == 'app_dashboard' ? 'active text-light bold' : '' }}" aria-current="page">
 				<i class="bi bi-speedometer2"></i> Dashboard
 			</a>
 		</li>
 		<li>
-			<a href="{{ path('app_kanban') }}" class="nav-link link-body-emphasis">
+			<a href="{{ path('app_kanban') }}" class="nav-link link-body-emphasis {{ app.request.attributes.get('_route') == 'app_kanban' ? 'active text-light bold' : '' }}">
 				<i class="bi bi-calendar-week"></i> Kanban
 			</a>
 		</li>
 		<li>
-			<a href="{{ path('app_job_offer_index') }}" class="nav-link link-body-emphasis">
+			<a href="{{ path('app_job_offer_index') }}" class="nav-link link-body-emphasis {{ app.request.attributes.get('_route') == 'app_job_offer_index' ? 'active text-light bold' : '' }}">
 				<i class="bi bi-building"></i> Candidatures
 			</a>
 		</li>
+		
 		<li>
 			<a href="{{ path('app_job_offer_index') }}" class="nav-link link-body-emphasis">
 				<i class="bi bi-envelope-paper"></i> Lettres de motivation

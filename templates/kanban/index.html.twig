@@ -8,8 +8,13 @@
 		{{ include('./components/partials/sidebar.html.twig') }}
 
 		<section class="container">
+			<div class="banner">
+				<div class="img">
+					<img src="./Images/website/baner.jpg" alt="baniére image">
+				</div>
+				<h1 class="text-center">Suivi de candidatures</h1>
+			</div>
 
-			<h1 class="my-4 text-center">Suivi de candidatures</h1>
 			
 			<div id="csrf-token-container" data-csrf-token="{{ csrf_token('update_job_status') }}"></div>
 

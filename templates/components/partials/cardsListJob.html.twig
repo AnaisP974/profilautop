@@ -1,32 +1,26 @@
 <a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}" class="unstyle">
-	<div class="card text-center">
-		<div class="card-header">
-			{{ job_offer.company ? job_offer.company|upper : "N/A" }}
+	<div class="my-card {% if job_offer.status.value == "À postuler" %}card1{% elseif job_offer.status.value == "En attente" %}card2{% elseif job_offer.status.value == "Entretien" %}card3{% elseif job_offer.status.value == "Refusé" %}card4{% elseif job_offer.status.value == "Accepté" %}card5{% endif %}">
+		<div class="text-end w-100">
+			{% if job_offer.status.value == "À postuler" %}
+				<i class="bi bi-bell"></i>
+			{% elseif job_offer.status.value == "En attente" %}
+				<i class="bi bi-send"></i>
+			{% elseif job_offer.status.value == "Entretien" %}
+				<i class="bi bi-chat-dots"></i>
+			{% elseif job_offer.status.value == "Refusé" %}
+				<i class="bi bi-ban"></i>
+			{% elseif job_offer.status.value == "Accepté" %}
+				<i class="bi bi-balloon-heart"></i>
+			{% endif %}
 		</div>
-		<div class="card-body">
-			<h5 class="card-title">{{ job_offer.title }}</h5>
-			<p class="card-text">
-				<strong>Ville :
-				</strong>
-				{{ job_offer.location ?? "N/A" }}</p>
-			<p class="card-text">
-				<strong>Salaire :
-				</strong>
-				{{ job_offer.salary ?? "N/A" }}</p>
-
-{% if job_offer.coverLetter is defined %}
-<a href="{{ path('app_cover_letter_show', {'id': job_offer.id}) }}" type="button" class="btn btn-primary">
-<i class="bi bi-envelope-paper"></i>
-</a>
-{% endif %}
-{% if job_offer.linkedInMessages is defined %}
-<a href="{{ path('app_linked_in_message_show', {'id': job_offer.id}) }}" type="button" class="btn btn-dark">
-<i class="bi bi-linkedin"></i>
-</a>
-{% endif %}
-		</div>
-		<div class="card-footer text-body-secondary">
-			{{ job_offer.status.value }}
+		<h2>{{ job_offer.title }}</h2>
+		<div class="row">
+			<div class="col-6 d-flex align-items-center">
+				<p><i class="bi bi-geo"></i> {{ job_offer.location ?? "N/A" }}</p>
+			</div>
+			<div class="col-6 text-end">
+				<p>Chez {{ job_offer.company ? job_offer.company|upper : "N/A" }}</p>
+			</div>
 		</div>
 	</div>
 </a>
