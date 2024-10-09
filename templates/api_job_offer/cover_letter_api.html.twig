@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ApiJobOfferController!{% endblock %}
+
+{% block body %}
+	<main class="d-flex no-wrap">
+		{{ include('./components/partials/sidebar.html.twig') }}
+
+		<div class="container">
+			<h1 class="text-center mt-4 deco">Générateur de lettre de motivation</h1>
+			<h2 class="link-menu text-center mb-4">
+				<a href="{{ path('app_dashboard') }}" class="unstyle">Dashboard</a>
+				>
+				<a href="{{ path('app_job_offer_index') }}" class="unstyle">Candidatures</a>
+				>
+				<a href="{{ path('app_job_offer_show', {'id': jobOffer.id}) }}" class="unstyle">Détail</a>
+				>
+				<span>Générer une lettre de motivation</span>
+			</h2>
+			<div class="d-flex justify-content-center flex-wrap">
+				<div class="col-xxl-8 px-4 py-5 border border-1 rounded shadow p-3 mb-5 bg-body-tertiary">
+
+					<form action="{{ path('api_jobOffer_cover_letter', {'id': jobOffer.id}) }}" method="post">
+						<p>Afin de générer une lettre de motivation le plus pertinente possible pour le poste : {{ jobOffer.title }} chez {{ jobOffer.company ?? 'Entreprise Inconnue' }}, réponds aux questions suivantes</p>
+
+						<div class="mb-3">
+							<label class="form-label" for="job_name">Poste</label>
+							<input class="form-control" type="text" id="job_name" name="job_name" value="{{ jobOffer.title }}">
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="job_company">Société</label>
+							<input class="form-control" type="text" id="job_company" name="job_company" value="{{ jobOffer.company ?? 'Entreprise Inconnue' }}">
+						</div>
+						
+						<div class="mb-3">
+							<label class="form-label" for="job_city">Ville</label>
+							<input class="form-control" type="text" id="job_city" name="job_city" value="{{ jobOffer.city ?? '' }}">
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="motivation">Parlez de vos motivations et de vos objectifs à court ou long terme. Pourquoi êtes-vous intéressé par ce poste ? Pourquoi souhaitez-vous rejoindre cette entreprise en particulier ? Quelles sont vos aspirations professionnelles ?</label>
+							<textarea rows="12" class="form-control" id="motivation" name="motivation" placeholder="Je recherche un emploi sur du long terme (CDI), ou à l'inverse je recherche un complétment de revenu (mi-temps/saisonnier)... je poste correspond à mon profil parceque ... "></textarea>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="competence">Expliquer maintenant vos compétences pour ce poste et votre expérience. Citez vos compétences clés pertinentes pour le poste, vos expériences professionnelles pertinentes, votre formation académique et certifications, vos projets ou réalisations spécifiques qui mettent en avant vos compétences.</label>
+							<textarea rows="12" class="form-control" id="competence" name="competence" placeholder="Mes compétences : .... Expérience professionnelle de 5 ans dans ... Diplomé d'un BTS ... J'ai réalisé un projet lors de mon activité chez ..."></textarea>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="style">Quel style ou quel ton souhaites tu comme approche pour la réalisation de la lettre de motivation ?</label>
+							<input class="form-control" type="text" id="style" name="style" placeholder="Un style formel, ou professionnel, ou chaleureux, etc.">
+						</div>
+						<button type="submit" class="btn btn-success">Lancer</button>
+					</form>
+					{% if generatedLetter is defined %}
+					<turbo-stream action="replace" target="letter-container">
+						<template>
+							<div id="letter-container">
+								<p>{{ generatedLetter.candidates[0].content.parts[0].text }}</p>
+							</div>
+						</template>
+					</turbo-stream>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ApiJobOfferController!{% endblock %}
+
+{% block body %}
+	<main class="d-flex no-wrap">
+		{{ include('./components/partials/sidebar.html.twig') }}
+
+		<div class="container">
+			<h1 class="text-center mt-4 deco">Générateur de lettre de motivation</h1>
+			<h2 class="link-menu text-center mb-4">
+				<a href="{{ path('app_dashboard') }}" class="unstyle">Dashboard</a>
+				>
+				<a href="{{ path('app_job_offer_index') }}" class="unstyle">Candidatures</a>
+				>
+				<a href="{{ path('app_job_offer_show', {'id': jobOffer.id}) }}" class="unstyle">Détail</a>
+				>
+				<span>Générer une lettre de motivation</span>
+			</h2>
+			<div class="d-flex justify-content-center flex-wrap">
+				<div class="col-xxl-8 px-4 py-5 border border-1 rounded shadow p-3 mb-5 bg-body-tertiary">
+
+					
+					{% if generatedLetter is defined %}
+						<div class="generated-letter">
+							<p>{{ generatedLetter.candidates[0].content.parts[0].text }}</p>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
